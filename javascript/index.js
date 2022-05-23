@@ -118,11 +118,12 @@ const makeBroccoli = async() => {
     document.querySelector("#broccoli").innerHTML += `<li>Robbies Broccoli is ready :-)</li>`
 }
 
-
-
 makeBroccoli()
 
-// Bonus 2 - Promise all
+
+
+
+// Bonus 1
 const makeSprouts = async() => {
 
     step0 = await obtainInstruction('brusselsSprouts', 0)
@@ -148,3 +149,31 @@ const makeSprouts = async() => {
 }
 
 makeSprouts()
+
+
+
+
+// Bonus 2 - Promise all
+let allStepsArr = [];
+
+for (let i = 0; i < brusselsSprouts.length; i++) {
+    allStepsArr.push(obtainInstruction("brusselsSprouts", i));
+    document.querySelector(
+        "#brusselsSprouts"
+    ).innerHTML += `<li>${brusselsSprouts[i]}</li>`;
+}
+
+const allPromises = Promise.all(allStepsArr);
+
+allPromises
+    .then(() => {
+        document.querySelector(
+            "#brusselsSprouts"
+        ).innerHTML += `<li>Brussels Sprouts are ready!</li>`;
+    })
+    .catch(() => {
+        throw Error("I'm an error");
+    })
+    .finally(() => {
+        document.querySelector("#brusselsSproutsImg").removeAttribute("hidden");
+    });
